@@ -14,7 +14,10 @@ public partial class MainPage : ContentPage
 
 	void Pedometer_PedometerReadingChanged(object sender, PedometerData e)
 	{
-		StepCount.Text = e.NumberOfSteps.ToString();
+		MainThread.InvokeOnMainThreadAsync(() =>
+		{
+			StepCount.Text = e.NumberOfSteps.ToString();
+		});
 	}
 
 	void Button_Clicked(object sender, EventArgs e)
