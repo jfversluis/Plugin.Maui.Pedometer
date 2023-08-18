@@ -9,6 +9,12 @@ namespace Plugin.Maui.Pedometer;
 
 partial class FeatureImplementation : Java.Lang.Object, IPedometer, ISensorEventListener
 {
+	// Android gives you the total amount of steps since the last reboot and when the
+	// sensor was first activated. To make the behavior more consistent across platforms
+	// catch the first reading, set that as the baseline and subtract from subsequent calls.
+	bool firstReadingDone;
+	int baselineSteps;
+
 	readonly SensorManager? sensorManager;
 	readonly PackageManager? packageManager = Application.Context.PackageManager;
 
@@ -46,7 +52,13 @@ partial class FeatureImplementation : Java.Lang.Object, IPedometer, ISensorEvent
 			case SensorType.StepCounter:
 				if (e?.Values?.Count > 0)
 				{
-					count = (int)e.Values[0];
+					if (!firstReadingDone)
+					{
+						baselineSteps = (int)e.Values[0];
+						firstReadingDone = true;
+					}
+
+					count = (int)e.Values[0] - baselineSteps;
 				}
 				else
 				{

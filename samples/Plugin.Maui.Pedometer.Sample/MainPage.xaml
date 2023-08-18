@@ -10,6 +10,6 @@
 
 		<Button x:Name="StartStopMonitoring" Text="Start/Stop" Clicked="Button_Clicked" Margin="20,20,20,0"/>
 		<Label Text="Steps taken 🥾" HorizontalOptions="Center" FontSize="25" />
-		<Label x:Name="StepCount" HorizontalOptions="Center" FontSize="25" />
+		<Label x:Name="StepCount" Text="0" HorizontalOptions="Center" FontSize="25" />
 	</VerticalStackLayout>
 </ContentPage>
