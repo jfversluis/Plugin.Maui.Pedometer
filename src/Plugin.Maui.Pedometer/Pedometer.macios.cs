@@ -12,12 +12,11 @@ partial class FeatureImplementation : IPedometer
 		pedometer = new();
 	}
 
-	// TODO Implement your macOS/iOS specific code
 	public bool IsSupported => CMPedometer.IsStepCountingAvailable;
 
 	public bool IsMonitoring { get; private set; }
 
-	public event EventHandler<PedometerData>? PedometerReadingChanged;
+	public event EventHandler<PedometerData>? ReadingChanged;
 
 	public void Start()
 	{
@@ -31,9 +30,11 @@ partial class FeatureImplementation : IPedometer
 
 		}
 
+		IsMonitoring = true;
+
 		pedometer.StartPedometerUpdates(NSDate.Now, (data, error) =>
 		{
-			PedometerReadingChanged?.Invoke(this, new()
+			ReadingChanged?.Invoke(this, new()
 			{
 				NumberOfSteps = (int)data.NumberOfSteps,
 			});
@@ -53,5 +54,7 @@ partial class FeatureImplementation : IPedometer
 		}
 
 		pedometer.StopPedometerUpdates();
+
+		IsMonitoring = false;
 	}
 }

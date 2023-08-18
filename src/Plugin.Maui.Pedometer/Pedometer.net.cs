@@ -8,7 +8,7 @@ partial class FeatureImplementation : IPedometer
 
 	public bool IsMonitoring => throw new NotImplementedException();
 
-	public event EventHandler<PedometerData>? PedometerReadingChanged;
+	public event EventHandler<PedometerData>? ReadingChanged;
 
 	public void Start()
 	{

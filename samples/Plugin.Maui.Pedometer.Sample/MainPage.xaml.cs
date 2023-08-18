@@ -9,7 +9,7 @@ public partial class MainPage : ContentPage
 		InitializeComponent();
 		
 		this.pedometer = pedometer;
-		pedometer.PedometerReadingChanged += Pedometer_PedometerReadingChanged;
+		pedometer.ReadingChanged += Pedometer_PedometerReadingChanged;
 	}
 
 	void Pedometer_PedometerReadingChanged(object sender, PedometerData e)

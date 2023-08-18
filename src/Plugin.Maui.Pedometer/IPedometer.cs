@@ -10,7 +10,7 @@ public interface IPedometer
 
 	bool IsMonitoring { get; }
 
-	event EventHandler<PedometerData>? PedometerReadingChanged;
+	event EventHandler<PedometerData>? ReadingChanged;
 
 	void Start();
 
