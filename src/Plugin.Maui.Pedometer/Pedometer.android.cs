@@ -27,8 +27,7 @@ partial class FeatureImplementation : Java.Lang.Object, IPedometer, ISensorEvent
 		}
 	}
 
-	public bool IsSupported => packageManager!.HasSystemFeature(PackageManager.FeatureSensorStepCounter) &&
-        packageManager.HasSystemFeature(PackageManager.FeatureSensorStepDetector);
+	public bool IsSupported => packageManager!.HasSystemFeature(PackageManager.FeatureSensorStepCounter);
 
 	public bool IsMonitoring { get; private set; }
 
@@ -82,7 +81,8 @@ partial class FeatureImplementation : Java.Lang.Object, IPedometer, ISensorEvent
 				new[] { Android.Manifest.Permission.ActivityRecognition }, 1337);
 		}
 
-		sensorManager?.RegisterListener(this, sensorManager.GetDefaultSensor(SensorType.StepCounter), SensorDelay.Fastest);
+		sensorManager?.RegisterListener(this, sensorManager.GetDefaultSensor(SensorType.StepCounter),
+			SensorDelay.Normal);
 	}
 
 	public void Stop()

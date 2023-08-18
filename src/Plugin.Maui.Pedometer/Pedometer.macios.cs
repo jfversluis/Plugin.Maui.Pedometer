@@ -27,7 +27,7 @@ partial class FeatureImplementation : IPedometer
 
 		if (IsMonitoring)
 		{
-
+			return;
 		}
 
 		IsMonitoring = true;
@@ -50,7 +50,7 @@ partial class FeatureImplementation : IPedometer
 
 		if (!IsMonitoring)
 		{
-
+			return;
 		}
 
 		pedometer.StopPedometerUpdates();

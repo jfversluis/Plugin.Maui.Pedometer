@@ -9,10 +9,13 @@ public partial class MainPage : ContentPage
 		InitializeComponent();
 		
 		this.pedometer = pedometer;
-		pedometer.ReadingChanged += Pedometer_PedometerReadingChanged;
+		pedometer.ReadingChanged += Pedometer_ReadingChanged;
+
+		IsSupported.Text = $"Is supported: {pedometer.IsSupported}";
+		StartStopMonitoring.IsEnabled = pedometer.IsSupported;
 	}
 
-	void Pedometer_PedometerReadingChanged(object sender, PedometerData e)
+	void Pedometer_ReadingChanged(object sender, PedometerData e)
 	{
 		MainThread.InvokeOnMainThreadAsync(() =>
 		{
@@ -22,6 +25,20 @@ public partial class MainPage : ContentPage
 
 	void Button_Clicked(object sender, EventArgs e)
 	{
-		pedometer.Start();
-    }
+		if (!pedometer.IsMonitoring)
+		{
+			pedometer.Start();
+		}
+		else
+		{
+			pedometer.Stop();
+		}
+
+		UpdateIsMonitoring();
+	}
+
+	void UpdateIsMonitoring()
+	{
+		IsMonitoring.Text = $"Is monitoring: {pedometer.IsMonitoring}";
+	}
 }

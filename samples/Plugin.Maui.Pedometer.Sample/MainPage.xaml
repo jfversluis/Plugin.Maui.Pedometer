@@ -4,8 +4,12 @@
              x:Class="Plugin.Maui.Pedometer.Sample.MainPage"
              Title="Pedometer Plugin">
 
-	<VerticalStackLayout>
-		<Button Text="Start/Stop" Clicked="Button_Clicked"/>
-		<Label x:Name="StepCount" />
+	<VerticalStackLayout Spacing="10">
+		<Label x:Name="IsSupported" Text="" HorizontalOptions="Center" Margin="0,10,0,0" />
+		<Label x:Name="IsMonitoring" Text="Is monitoring: False" HorizontalOptions="Center" />
+
+		<Button x:Name="StartStopMonitoring" Text="Start/Stop" Clicked="Button_Clicked" Margin="20,20,20,0"/>
+		<Label Text="Steps taken 🥾" HorizontalOptions="Center" FontSize="25" />
+		<Label x:Name="StepCount" HorizontalOptions="Center" FontSize="25" />
 	</VerticalStackLayout>
 </ContentPage>
