@@ -37,6 +37,7 @@ partial class FeatureImplementation : IPedometer
 			ReadingChanged?.Invoke(this, new()
 			{
 				NumberOfSteps = (int)data.NumberOfSteps,
+				Timestamp = DateTimeOffset.Now,
 			});
 		});
 	}

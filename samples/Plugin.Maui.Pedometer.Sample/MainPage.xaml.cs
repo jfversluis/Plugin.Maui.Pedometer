@@ -20,6 +20,7 @@ public partial class MainPage : ContentPage
 		MainThread.InvokeOnMainThreadAsync(() =>
 		{
 			StepCount.Text = e.NumberOfSteps.ToString();
+			LastUpdate.Text = $"Last update: {e.Timestamp}";
 		});
 	}
 

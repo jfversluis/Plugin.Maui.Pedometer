@@ -69,7 +69,8 @@ partial class FeatureImplementation : Java.Lang.Object, IPedometer, ISensorEvent
 
 		ReadingChanged?.Invoke(this, new()
 		{
-			NumberOfSteps = count
+			NumberOfSteps = count,
+			Timestamp = DateTimeOffset.Now,
 		});
 	} 
 
