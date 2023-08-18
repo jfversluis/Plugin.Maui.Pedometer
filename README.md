@@ -1,10 +1,15 @@
+![](nuget.png) 
 # Plugin.Maui.Pedometer
 
 `Plugin.Maui.Pedometer` provides the ability to read the device pedometer in your .NET MAUI application. This plugin currently only supports iOS and Android.
 
-## Getting Started
+## Install Plugin
 
-* Available on NuGet: <http://www.nuget.org/packages/Plugin.Maui.Pedometer> [![NuGet](https://img.shields.io/nuget/v/Plugin.Maui.Pedometer.svg?label=NuGet)](https://www.nuget.org/packages/Plugin.Maui.Pedometer/)
+[![NuGet](https://img.shields.io/nuget/v/Plugin.Maui.Pedometer.svg?label=NuGet)](https://www.nuget.org/packages/Plugin.Maui.Pedometer/)
+
+Available on [NuGet](http://www.nuget.org/packages/Plugin.Maui.Pedometer).
+
+Install with the dotnet CLI: `dotnet add package Plugin.Maui.Pedometer`, or through the NuGet Package Manager in Visual Studio.
 
 ## API Usage
 
@@ -16,7 +21,7 @@ Before you can start reading pedometer values, you will need to request the prop
 
 #### iOS
 
-On iOS, add the `NSMotionUsageDescription` key to your `info.plist` file.
+On iOS, add the `NSMotionUsageDescription` key to your `info.plist` file. When declared, the permission will be requested automatically at runtime.
 
 ```xml
 <key>NSMotionUsageDescription</key>
