@@ -1,18 +1,37 @@
-﻿namespace Plugin.Maui.Pedometer;
+﻿using Microsoft.Maui.ApplicationModel;
+
+namespace Plugin.Maui.Pedometer;
 
 /// <summary>
-/// TODO: Provide relevant comments for your APIs
+/// Monitor changes to the device pedometer.
 /// </summary>
 public interface IPedometer
 {
-	// TODO Define your plugin interface
+	/// <summary>
+	/// Gets a value indicating whether reading the pedometer is supported on this device.
+	/// </summary>
 	bool IsSupported { get; }
 
+	/// <summary>
+	/// Gets a value indicating whether the pedometer is actively being monitored.
+	/// </summary>
 	bool IsMonitoring { get; }
 
+	/// <summary>
+	/// Occurs when pedometer reading changes.
+	/// </summary>
 	event EventHandler<PedometerData>? ReadingChanged;
 
+	/// <summary>
+	/// Start monitoring for changes to the pedometer.
+	/// </summary>
+	/// <remarks>
+	/// Will throw <see cref="FeatureNotSupportedException"/> if not supported on device.
+	/// </remarks>
 	void Start();
 
+	/// <summary>
+	/// Stop monitoring for changes to the pedometer.
+	/// </summary>
 	void Stop();
 }
