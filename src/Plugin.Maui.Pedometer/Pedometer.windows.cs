@@ -9,7 +9,6 @@ partial class FeatureImplementation : IPedometer
 		//pedometer = new Windows.Devices.Sensors.Pedometer();
 	}
 
-	// TODO Implement your Windows specific code
 	public bool IsSupported => !string.IsNullOrEmpty(Windows.Devices.Sensors.Pedometer.GetDeviceSelector());
 
 	public bool IsMonitoring { get; private set; }
