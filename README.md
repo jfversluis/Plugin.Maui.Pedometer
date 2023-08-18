@@ -1,28 +1,115 @@
 # Plugin.Maui.Pedometer
 
-The `Plugin.Maui.Pedometer` repository is a template repository that can be used to bootstrap your own .NET MAUI plugin project. You can use this project structure as a blueprint for your own work.
+`Plugin.Maui.Pedometer` provides the ability to read the device pedometer in your .NET MAUI application. This plugin currently only supports iOS and Android.
 
 ## Getting Started
-1. Create your own GitHub repository from this one by clicking the "Use this template" button and then "Create a new repository". More information in the [documentation](https://docs.github.com/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template). After that, clone the repo to your local machine.
 
-2. Replace all occurrences of `Plugin.Maui.Pedometer` with whatever your feature or functionality will be. For instance: `Plugin.Maui.ScreenBrightness` or `Plugin.Maui.Audio`. Of course the name can be anything, but to make it more discoverable it could be a great choice to stick to this naming scheme. You can easily do this with your favorite text-editor and do a replace all on all files.
+* Available on NuGet: <http://www.nuget.org/packages/Plugin.Maui.Pedometer> [![NuGet](https://img.shields.io/nuget/v/Plugin.Maui.Pedometer.svg?label=NuGet)](https://www.nuget.org/packages/Plugin.Maui.Pedometer/)
 
-   2.1 Don't forget to also rename the files and folders on your filesystem.
+## API Usage
 
-3. In the csproj file of the plugin project (under `src`), make sure that you replace all relevant values to your project. This means the author of this project, the description of the project, the target framework (.NET 7, 8 or something else). If you don't want to or can't support a certain platform, remove that target platform altogether.
+`Plugin.Maui.Pedometer` provides the `Pedometer` class that can be used to monitor the device pedometer and track the user's step count.
 
-4. Delete this `README.md` file and rename `README_Feature.md` to `README.md`. Fill that README file with all the relevant details of your project.
+### Permissions
 
-5. Check the LICENSE file if this reflects the license that you want to distribute your project under. At the very least add your name there and the current year we live in.
+Before you can start reading pedometer values, you will need to request the proper permissions on each platform.
 
-6. Create a nice icon in the `nuget.png` file that will show up on nuget.org and in the NuGet manager in Visual Studio.
+#### iOS
 
-7. Write your plugin code (under `src`) and add samples to the .NET MAUI sample app (under `samples` folder)
+On iOS, add the `NSMotionUsageDescription` key to your `info.plist` file.
 
-8. Make super sure that your package won't show up as `Plugin.Maui.Pedometer` on NuGet! If one does, you owe me a drink!
+```xml
+<key>NSMotionUsageDescription</key>
+<string>This app wants to track your pedometer readings</string>
+```
 
-9. Publish your package to NuGet, a nice guide to do that can be found here.
+#### Android
 
-10. Enjoy life as a .NET MAUI plugin author!
+On Android with API 29+, declare the `ACTIVITY_RECOGNITION` permissions in your `AndroidManifest.xml` file. This should be placed in the `manifest` node. You can also add this through the visual editor in Visual Studio.
 
-As an example of all of this you can have a look at [Plugin.Maui.ScreenBrightness](https://github.com/jfversluis/Plugin.Maui.ScreenBrightness) or [Plugin.Maui.Audio](https://github.com/jfversluis/Plugin.Maui.Audio).
+The runtime permission is automatically requested by the plugin when `Start()` is called.
+
+```xml
+<uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+```
+
+### Dependency Injection
+
+You will first need to register the `Pedometer` with the `MauiAppBuilder` following the same pattern that the .NET MAUI Essentials libraries follow.
+
+```csharp
+builder.Services.AddSingleton(Pedometer.Default);
+```
+
+You can then enable your classes to depend on `IPedometer` as per the following example.
+
+```csharp
+public class StepCounterViewModel
+{
+    readonly IPedometer pedometer;
+
+    public StepCounterViewModel(IPedometer pedometer)
+    {
+        this.pedometer = pedometer;
+    }
+
+    public void StartCounting()
+    {
+        pedometer.ReadingChanged += (sender, reading) =>
+        {
+            Console.WriteLine(reading.NumberOfSteps);
+        };
+
+        pedometer.Start();
+    }
+}
+```
+
+### Straight usage
+
+Alternatively if you want to skip using the dependency injection approach you can use the `Pedometer.Default` property.
+
+```csharp
+public class StepCounterViewModel
+{
+    public void StartCounting()
+    {
+        pedometer.ReadingChanged += (sender, reading) =>
+        {
+            Console.WriteLine(reading.NumberOfSteps);
+        };
+
+        Pedometer.Default.Start();
+    }
+}
+```
+
+### Pedometer
+
+Once you have created a `Pedometer` you can interact with it in the following ways:
+
+#### Events
+
+##### `ReadingChanged`
+
+Occurs when pedometer reading changes.
+
+#### Properties
+
+##### `IsSupported`
+
+Gets a value indicating whether reading the pedometer is supported on this device.
+
+##### `IsMonitoring`
+
+Gets a value indicating whether the pedometer is actively being monitored.
+
+#### Methods
+
+##### `Start()`
+
+Start monitoring for changes to the pedometer.
+
+##### `Stop()`
+
+Stop monitoring for changes to the pedometer.
