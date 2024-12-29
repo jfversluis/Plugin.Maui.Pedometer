@@ -5,20 +5,35 @@ on:
     tags:
     - "v[0-9]+.[0-9]+.[0-9]+"
     - "v[0-9]+.[0-9]+.[0-9]+-preview[0-9]+"
+
+env:
+  DOTNET_VERSION: '9.0.x' # The .NET SDK version to use
+
 jobs:
   release-nuget:
   
     runs-on: windows-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Install .NET MAUI Workload
+        run: dotnet workload restore samples\Plugin.Maui.Pedometer.Sample.sln
+
       - name: Verify commit exists in origin/main
         run: |
           git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
           git branch --remote --contains | grep origin/main
       - name: Get version information from tag
         id: get_version
-        uses: battila7/get-version-action@v2
+        run: |
+          $version="${{github.ref_name}}".TrimStart("v")
+          "version-without-v=$version" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
       - name: Pack
         run: dotnet pack src\Plugin.Maui.Pedometer.sln -c Release -p:PackageVersion=${{ steps.get_version.outputs.version-without-v }}
       - name: Push

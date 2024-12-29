@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net7.0-android;net7.0-ios</TargetFrameworks>
+		<TargetFrameworks>net9.0-android;net9.0-ios</TargetFrameworks>
 		<OutputType>Exe</OutputType>
 		<RootNamespace>Plugin.Maui.Pedometer.Sample</RootNamespace>
 		<UseMaui>true</UseMaui>
@@ -13,7 +13,6 @@
 
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.pluginsample</ApplicationId>
-		<ApplicationIdGuid>A20E30BB-3BF7-4ACB-89F2-596834136909</ApplicationIdGuid>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -42,6 +41,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 	  <ProjectReference Include="..\..\src\Plugin.Maui.Pedometer\Plugin.Maui.Pedometer.csproj" />
 	</ItemGroup>
 </Project>

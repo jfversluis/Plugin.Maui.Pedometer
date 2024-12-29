@@ -8,12 +8,24 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  DOTNET_VERSION: '9.0.x' # The .NET SDK version to use
+
 jobs:
   build-plugin-ci:
 
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+    
+    - name: Install .NET MAUI Workload
+      run: dotnet workload restore samples\Plugin.Maui.Pedometer.Sample.sln
+
     - name: Build
       run: dotnet build src\Plugin.Maui.Pedometer.sln -c Release
