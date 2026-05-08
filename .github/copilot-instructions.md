@@ -1,16 +1,18 @@
-# $ Copilot InstructionsREPO 
+# Plugin.Maui.Pedometer - Copilot Instructions
 
 ## Project Overview
 
-This is a .NET MAUI plugin that provides the ability to read the device pedometer (step counter). It targets Android, iOS (no Windows/macOS).
+This is a .NET MAUI plugin that provides the ability to read the device pedometer (step counter). It targets Android and iOS (no Windows/macOS support).
 
-### Architecture
+## Architecture
 
-Event-based sensor: `IPedometer` with Start/Stop and `ReadingChanged` event.
+Event-based sensor: `IPedometer` with `Start`/`Stop` and `ReadingChanged` event.
+
 Data model: `PedometerData` with step count.
 
-- Android: SensorManager TYPE_STEP_COUNTER
-- iOS: CoreMotion CMPedometer
+Platform specifics:
+- Android: `SensorManager` with `TYPE_STEP_COUNTER`
+- iOS: CoreMotion `CMPedometer`
 - No Windows/macOS support
 
 ## Code Conventions
@@ -19,11 +21,11 @@ Data model: `PedometerData` with step count.
 All code uses: `Plugin.Maui.Pedometer`
 
 ### File Naming
-- `*.shared. Cross-platform codecs` 
-- `*.android. Androidcs` 
-- `*.macios. iOS/macOScs` 
-- `*.windows. Windowscs` 
-- `*.net. Generic .NET fallbackcs` 
+- `*.shared.cs` - Cross-platform code
+- `*.android.cs` - Android-specific code
+- `*.macios.cs` - iOS/macOS-specific code
+- `*.windows.cs` - Windows-specific code
+- `*.net.cs` - Generic .NET fallback
 
 ### Standards
 - File-scoped namespaces
